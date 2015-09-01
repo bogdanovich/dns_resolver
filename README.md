@@ -1,6 +1,11 @@
-# Simple dns resolver implemented in Go based on based on miekg/dns.
+# Simple dns resolver implemented in go
 
-Uses provided dns servers in random order.
+Based on based on miekg/dns.
+
+# Features
+
+- Uses provided dns servers array in random order
+- Retries dns requests in case of i/o timeout
 
 
 # Building
