@@ -1,14 +1,15 @@
 # Simple dns resolver implemented in go
+[![Build Status](https://travis-ci.org/bogdanovich/dns_resolver.svg?branch=master)](https://travis-ci.org/bogdanovich/dns_resolver)
 
 Based on based on miekg/dns.
 
-# Features
+## Features
 
 - Uses provided dns servers array in random order
 - Retries dns requests in case of i/o timeout
 
 
-# Building
+## Building
 
 Building is done with the `go` tool. If you have setup your GOPATH
 correctly, the following should work:
