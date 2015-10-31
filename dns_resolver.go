@@ -13,6 +13,7 @@ import (
 	"github.com/miekg/dns"
 )
 
+// DnsResolver represents a dns resolver
 type DnsResolver struct {
 	Servers    []string
 	RetryTimes int
@@ -21,7 +22,7 @@ type DnsResolver struct {
 
 // New initializes DnsResolver.
 func New(servers []string) *DnsResolver {
-	for i, _ := range servers {
+	for i := range servers {
 		servers[i] += ":53"
 	}
 
@@ -43,27 +44,26 @@ func NewFromResolvConf(path string) (*DnsResolver, error) {
 
 // LookupHost returns IP addresses of provied host.
 // In case of timeout retries query RetryTimes times.
-func (self *DnsResolver) LookupHost(host string) ([]net.IP, error) {
-	return self.lookupHost(host, self.RetryTimes)
+func (r *DnsResolver) LookupHost(host string) ([]net.IP, error) {
+	return r.lookupHost(host, r.RetryTimes)
 }
 
-func (self *DnsResolver) lookupHost(host string, triesLeft int) ([]net.IP, error) {
+func (r *DnsResolver) lookupHost(host string, triesLeft int) ([]net.IP, error) {
 	m1 := new(dns.Msg)
 	m1.Id = dns.Id()
 	m1.RecursionDesired = true
 	m1.Question = make([]dns.Question, 1)
 	m1.Question[0] = dns.Question{dns.Fqdn(host), dns.TypeA, dns.ClassINET}
-	in, err := dns.Exchange(m1, self.Servers[self.r.Intn(len(self.Servers))])
+	in, err := dns.Exchange(m1, r.Servers[r.r.Intn(len(r.Servers))])
 
 	result := []net.IP{}
 
 	if err != nil {
 		if strings.HasSuffix(err.Error(), "i/o timeout") && triesLeft > 0 {
-			triesLeft -= 1
-			return self.lookupHost(host, triesLeft)
-		} else {
-			return result, err
+			triesLeft--
+			return r.lookupHost(host, triesLeft)
 		}
+		return result, err
 	}
 
 	if in != nil && in.Rcode != dns.RcodeSuccess {

@@ -8,16 +8,17 @@ Based on based on miekg/dns.
 - Uses provided dns servers array in random order
 - Retries dns requests in case of i/o timeout
 
+## Installing
 
-## Building
+### Using *go get*
 
-Building is done with the `go` tool. If you have setup your GOPATH
-correctly, the following should work:
+    $ go get github.com/bogdanovich/dns_resolver
 
-    go get github.com/bogdanovich/dns_resolver
-    go build github.com/bogdanovich/dns_resolver
+After this command *dns_resolver* is ready to use. Its source will be in:
 
-## Examples
+    $GOPATH/src/github.com/bogdanovich/dns_resolver
+
+## Example
 
 ``` go
 package main
