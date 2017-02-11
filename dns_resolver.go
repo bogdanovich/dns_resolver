@@ -23,7 +23,7 @@ type DnsResolver struct {
 // New initializes DnsResolver.
 func New(servers []string) *DnsResolver {
 	for i := range servers {
-		servers[i] += ":53"
+		servers[i] = net.JoinHostPort(servers[i], "53")
 	}
 
 	return &DnsResolver{servers, len(servers) * 2, rand.New(rand.NewSource(time.Now().UnixNano()))}
@@ -37,7 +37,7 @@ func NewFromResolvConf(path string) (*DnsResolver, error) {
 	config, err := dns.ClientConfigFromFile(path)
 	servers := []string{}
 	for _, ipAddress := range config.Servers {
-		servers = append(servers, ipAddress+":53")
+		servers = append(servers, net.JoinHostPort(ipAddress, "53"))
 	}
 	return &DnsResolver{servers, len(servers) * 2, rand.New(rand.NewSource(time.Now().UnixNano()))}, err
 }
