@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/bogdanovich/dns_resolver.svg?branch=master)](https://travis-ci.org/bogdanovich/dns_resolver)
 [![Go Walker](http://gowalker.org/api/v1/badge)](https://gowalker.org/github.com/bogdanovich/dns_resolver)
 
+Forked from bogdanovich/dns_resolver
 Based on based on miekg/dns.
 
 ## Features
