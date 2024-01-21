@@ -55,6 +55,19 @@ func TestLookupHost_ValidServer(t *testing.T) {
 	}
 
 	if result[0].String() != "8.8.8.8" {
-		t.Error("google-public-dns-a.google.com should be resolved to 8.8.8.8")
+		t.Error(fmt.Sprintf("google-public-dns-a.google.com should be resolved to 8.8.8.8. Got: %s", result[0].String()))
+	}
+}
+
+func TestLookupTXT_ValidServer(t *testing.T) {
+	resolver := New([]string{"8.8.8.8", "8.8.4.4"})
+	result, err := resolver.LookupTXT("google-public-dns-a.google.com")
+	if err != nil {
+		fmt.Println(err.Error())
+		t.Error("Should succeed dns txt lookup")
+	}
+
+	if result[0] != "http://xkcd.com/1361/" {
+		t.Error(fmt.Sprintf("google-public-dns-a.google.com should have txt record http://xkcd.com/1361/, got: %s", result[0]))
 	}
 }
